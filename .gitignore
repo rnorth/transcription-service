@@ -5,3 +5,4 @@ eclipse/
 tmp/
 logs/
 lib/*.jar
+test-result/

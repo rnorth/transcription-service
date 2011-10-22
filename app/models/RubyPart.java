@@ -37,7 +37,8 @@ public class RubyPart {
 	}
 
 	public Boolean isJustHiragana() {
-		return this.written.matches("[\\p{InHiragana}]+");
+//		return this.written.matches("[\\p{InHiragana}]+");
+		return this.written.equals(this.furigana);
 	}
 
 	public void mergeIn(RubyPart thisPart) {
@@ -50,5 +51,4 @@ public class RubyPart {
 		// TODO Auto-generated method stub
 		return written + "[" + furigana + "]";
 	}
-
 }

@@ -153,12 +153,4 @@ public class Ruby {
 		return rubyParts.toString();
 	}
 
-	public boolean hasFurigana() {
-		for (RubyPart part : this.rubyParts) {
-			if (!part.isJustHiragana()) {
-				return true;
-			}
-		}
-		return false;
-	}
 }

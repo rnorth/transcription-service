@@ -1,7 +1,15 @@
 
 #{list items:result.rubies, as:'ruby'}
-    <ruby>
-        <rb>${ruby.plainForm}</rb>
-        <rt>${ruby.furigana}</rt>
-    </ruby>
+    #{list items:ruby.rubyParts, as:'part'}
+        #{if !part.justHiragana }
+            <ruby>
+		        <rb>${part.written}</rb>
+		        <rt>${part.furigana}</rt>
+		    </ruby>
+        #{/if}
+        #{else}
+            ${part.written}
+        #{/else}
+    #{/list}
+    
 #{/list} 
