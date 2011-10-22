@@ -56,7 +56,7 @@ public class TranscriptionJob extends Job {
 		List<String> taggedText = Files.readLines(taggedTextFile, Charsets.UTF_8);
 		
 		for (String line : taggedText) {
-			if (! "EOS".equals(line) ) {
+			if (! "EOS".equals(line) && !"".equals(line)) {
 				transcriptionResult.rubies.add(convertMecabTaggedLineToRuby(line));
 			}
 		}

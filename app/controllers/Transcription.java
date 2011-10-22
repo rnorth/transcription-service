@@ -29,8 +29,12 @@ public class Transcription extends Controller {
 		performProcessing(job);
 	}
 
-	public static void transcribeGet(String input) throws InterruptedException, ExecutionException, IOException, TimeoutException {
+	public static void transcribe(String input) throws InterruptedException, ExecutionException, IOException, TimeoutException {
 
+		if (input==null) {
+			throw new RuntimeException("Input must be provided!");
+		}
+		
 		Promise job = new TranscriptionJob(input).now();
 		performProcessing(job);
 	}
@@ -38,7 +42,7 @@ public class Transcription extends Controller {
 	private static void performProcessing(Promise job) throws InterruptedException, ExecutionException, TimeoutException {
 		await(job);
 
-		TranscriptionResult result = (TranscriptionResult) job.get(1L, TimeUnit.SECONDS);
+		TranscriptionResult result = (TranscriptionResult) job.get();
 		renderTemplate("Transcription/transcribe.html", result);
 	}
 

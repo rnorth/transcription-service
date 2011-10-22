@@ -5,14 +5,13 @@
 # Home page
 GET     /                                       Application.index
 
-POST    /transcription/transcribe               Transcription.transcribePost
-GET     /transcription/transcribe               Transcription.transcribeGet
-
 # Ignore favicon requests
 GET     /favicon.ico                            404
 
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public
+
+POST    /transcription/transcribe               Transcription.transcribePost
 
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}
