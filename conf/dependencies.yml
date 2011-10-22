@@ -2,3 +2,5 @@
 
 require:
     - play
+    - com.google.guava -> guava r09
+    - com.ibm.icu -> icu4j 4.6

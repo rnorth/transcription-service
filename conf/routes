@@ -5,6 +5,9 @@
 # Home page
 GET     /                                       Application.index
 
+POST    /transcription/transcribe               Transcription.transcribePost
+GET     /transcription/transcribe               Transcription.transcribeGet
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 
