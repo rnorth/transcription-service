@@ -100,7 +100,9 @@ public class Ruby {
 					lastPivotIndex = 1;
 				} else {
 					remainingSurface = remainingSurface.substring(remainingSurface.indexOf(thisChar));
-					lastPivotIndex = i;
+					if (surfaceUpToPivot.length() > 0) {
+						lastPivotIndex = i;
+					}
 				}
 				
 				Logger.info("%s matched with %s", surfaceUpToPivot, prounciationUpToPivot);

@@ -81,4 +81,14 @@ public class TranscriptionJobTest extends UnitTest {
 		assertEquals("さん", rubyParts.get(0).written);
 		assertEquals("さん", rubyParts.get(0).furigana);
     }
+    
+    @Test
+    public void canHandleRomajiWithDuplicateChars() throws Exception {
+    	Promise job = new TranscriptionJob("soon").now();
+        
+        TranscriptionResult result = (TranscriptionResult) job.get();
+        final List<RubyPart> rubyParts = result.rubies.get(0).rubyParts;
+		assertEquals("soon", rubyParts.get(0).furigana);
+        assertEquals("soon", rubyParts.get(0).written);
+    }
 }
