@@ -26,63 +26,14 @@ public class Ruby {
 			Transliterator tx = Transliterator.getInstance("Katakana-Hiragana");
 			this.pronunciation = tx.transliterate(pronunciation);
 
-			splitIntoParts(this.lemma, this.pronunciation);
+			splitIntoParts();
 		}
 		
 	}
 
-	private void splitIntoParts(String surface, String pronunciation) {
+	private void splitIntoParts() {
 		
-//		String remainingSurface = surface;
-//		String remainingPronunciation = pronunciation;
-//		
-//		StringBuilder accumulatedPronunciation = new StringBuilder();
-//		for (int i=0; i<pronunciation.length(); i++) {
-//			
-//			String thisChar = String.valueOf(pronunciation.charAt(i));
-//			
-//			// find where this pronounciation character appears in surface
-//			String[] split = remainingSurface.split(thisChar);
-//			if (split.length==2) {
-//				String writtenBeforeThisChar = split[0];
-//				remainingSurface = split[1];
-//				
-//				if (accumulatedPronunciation.length()>0) {
-//					rubyParts.add(new RubyPart(accumulatedPronunciation.toString()));
-//					remainingPronunciation = remainingPronunciation.substring(accumulatedPronunciation.length(), remainingPronunciation.length());
-//					accumulatedPronunciation = new StringBuilder();
-//				}
-//				
-//				rubyParts.add(new RubyPart(writtenBeforeThisChar, pronunciation.substring(0,i)));
-//				accumulatedPronunciation.append(thisChar);
-//			} else if (split.length==1) {
-//				Logger.info("spl=1, tc=%s ap=%s rs=%s", thisChar, accumulatedPronunciation, remainingSurface);
-//			}
-//					
-//			if (((i+1)==pronunciation.length())) {
-//				if (remainingSurface.contains(thisChar)) {
-//					
-//					Logger.info("%s %s", remainingPronunciation, remainingSurface);
-//					
-//					accumulatedPronunciation.append(thisChar);
-//					rubyParts.add(new RubyPart(accumulatedPronunciation.toString()));
-//				} else {
-//					rubyParts.add(new RubyPart(accumulatedPronunciation.toString()));
-//					remainingPronunciation = remainingPronunciation.substring(accumulatedPronunciation.length(), remainingPronunciation.length());
-//					rubyParts.add(new RubyPart(remainingSurface, remainingPronunciation));
-//				}
-//			}
-//		}
-//		
-//		List<RubyPart> blanksRemovedRubyParts = Lists.newArrayList();
-//		for (RubyPart part : this.rubyParts) {
-//			if (!part.written.isEmpty()) {
-//				blanksRemovedRubyParts.add(part);
-//			}
-//		}
-//		this.rubyParts = blanksRemovedRubyParts;
-		
-		String remainingSurface = surface;
+		String remainingSurface = lemma;
 		int lastPivotIndex = 0;
 		
 		for (int i=0; i<pronunciation.length(); i++) {
@@ -105,7 +56,7 @@ public class Ruby {
 					}
 				}
 				
-				Logger.info("%s matched with %s", surfaceUpToPivot, prounciationUpToPivot);
+				Logger.debug("%s matched with %s", surfaceUpToPivot, prounciationUpToPivot);
 				
 				rubyParts.add(new RubyPart(surfaceUpToPivot, prounciationUpToPivot));
 				
@@ -117,16 +68,16 @@ public class Ruby {
 		rubyParts.add(new RubyPart(remainingSurface, remainingPronunciation));
 		
 		List<RubyPart> blanksRemovedRubyParts = Lists.newArrayList();
-		for (RubyPart part : this.rubyParts) {
+		for (RubyPart part : rubyParts) {
 			if (!part.written.isEmpty()) {
 				blanksRemovedRubyParts.add(part);
 			}
 		}
-		this.rubyParts = blanksRemovedRubyParts;
+		rubyParts = blanksRemovedRubyParts;
 		
 		List<RubyPart> consecutiveNonFuriganaPartsMerged = Lists.newArrayList();
 		RubyPart lastNonFuriganaPart = null;
-		for (RubyPart part : this.rubyParts) {
+		for (RubyPart part : rubyParts) {
 			if (part.isJustHiragana()) {
 				if (lastNonFuriganaPart!=null) {
 					lastNonFuriganaPart.mergeIn(part);
@@ -139,7 +90,7 @@ public class Ruby {
 				consecutiveNonFuriganaPartsMerged.add(part);
 			}
 		}
-		this.rubyParts = consecutiveNonFuriganaPartsMerged;
+		rubyParts = consecutiveNonFuriganaPartsMerged;
 	}
 
 	public String getFurigana() {
