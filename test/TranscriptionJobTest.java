@@ -67,7 +67,7 @@ public class TranscriptionJobTest extends UnitTest {
 		
 		rubyParts = result.rubies.get(6).rubyParts;
 		assertEquals("勉強", rubyParts.get(0).written);
-		assertEquals("べんきょお", rubyParts.get(0).furigana);
+		assertEquals("べんきょう", rubyParts.get(0).furigana);
 		
 		rubyParts = result.rubies.get(7).rubyParts;
 		assertEquals("する", rubyParts.get(0).written);

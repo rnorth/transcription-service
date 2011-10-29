@@ -1,5 +1,11 @@
 package models;
 
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import play.Logger;
+import play.db.jpa.JPA;
+
 import com.ibm.icu.text.Transliterator;
 
 

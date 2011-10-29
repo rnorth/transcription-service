@@ -1,8 +1,6 @@
 package models;
 
 import java.util.List;
-import java.util.Stack;
-import java.util.regex.Pattern;
 
 import play.Logger;
 
@@ -67,6 +65,12 @@ public class Ruby {
 		String remainingPronunciation = pronunciation.substring(lastPivotIndex);
 		rubyParts.add(new RubyPart(remainingSurface, remainingPronunciation));
 		
+		removeBlankRubyParts();
+		
+		mergeAdjacentNonFuriganaParts();
+	}
+
+	private void removeBlankRubyParts() {
 		List<RubyPart> blanksRemovedRubyParts = Lists.newArrayList();
 		for (RubyPart part : rubyParts) {
 			if (!part.written.isEmpty()) {
@@ -74,7 +78,9 @@ public class Ruby {
 			}
 		}
 		rubyParts = blanksRemovedRubyParts;
-		
+	}
+
+	private void mergeAdjacentNonFuriganaParts() {
 		List<RubyPart> consecutiveNonFuriganaPartsMerged = Lists.newArrayList();
 		RubyPart lastNonFuriganaPart = null;
 		for (RubyPart part : rubyParts) {

@@ -11,6 +11,7 @@ import models.Ruby;
 import models.TranscriptionResult;
 import play.Logger;
 import play.jobs.Job;
+import service.definition.DefinitionService;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
@@ -61,6 +62,7 @@ public class TranscriptionJob extends Job {
 			}
 		}
 		Logger.info("Parsing of Mecab output done with %d rubies found", transcriptionResult.getSize());
+		tempDir.deleteOnExit();
 		
 		return transcriptionResult;
 	}
@@ -77,18 +79,33 @@ public class TranscriptionJob extends Job {
 		Transliterator tx = Transliterator.getInstance("Katakana-Hiragana");
 		
 		String lemma = initialSplit[0];
-		String pos = secondSplit[1];
+		String pos = secondSplit[0];
+		String pos1 = secondSplit[1];
+		String rule = secondSplit[5];
 		String inflection = secondSplit[5];
-		String pronunciation = secondSplit[8];
+		String dictionaryForm = secondSplit[6];
+		String pronunciation = secondSplit[7];
+		
 		if (lemma.equals(pronunciation)) {
 			// katakana
+			
+			List<String> definition = DefinitionService.define(lemma, pos, pos1, rule);
+			Logger.debug("Definitions for %s[%s]: %s", dictionaryForm, tx.transliterate(pronunciation), definition);
+			
 			return new KatakanaRuby(lemma, pos, inflection, pronunciation);
 		} else if (lemma.equals( tx.transliterate(pronunciation) )) {
 			// hiragana
+			
+			List<String> definition = DefinitionService.define(dictionaryForm, pos, pos1, rule);
+			Logger.debug("Definitions for [%s]: %s", dictionaryForm, definition);
+			
 			return new HiraganaRuby(lemma, pos, inflection, pronunciation);
 		} else if (pos.equals(PunctuationRuby.PUNCTUATION)){
 			return new PunctuationRuby(lemma);
 		} else {
+			List<String> definition = DefinitionService.define(dictionaryForm, tx.transliterate(pronunciation), pos, pos1, rule);
+			Logger.debug("Definitions for %s[%s]: %s", dictionaryForm, tx.transliterate(pronunciation), definition);
+			
 			return new KanjiRuby(lemma,pos,inflection,pronunciation);
 		}
 	}
