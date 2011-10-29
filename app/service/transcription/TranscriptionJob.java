@@ -89,24 +89,24 @@ public class TranscriptionJob extends Job {
 		if (lemma.equals(pronunciation)) {
 			// katakana
 			
-			List<String> definition = DefinitionService.define(lemma, pos, pos1, rule);
-			Logger.debug("Definitions for %s[%s]: %s", dictionaryForm, tx.transliterate(pronunciation), definition);
+			List<String> definitions = DefinitionService.define(lemma, pos, pos1, rule);
+			Logger.debug("Definitions for %s[%s]: %s", dictionaryForm, tx.transliterate(pronunciation), definitions);
 			
-			return new KatakanaRuby(lemma, pos, inflection, pronunciation);
+			return new KatakanaRuby(lemma, pos, inflection, pronunciation, definitions);
 		} else if (lemma.equals( tx.transliterate(pronunciation) )) {
 			// hiragana
 			
-			List<String> definition = DefinitionService.define(dictionaryForm, pos, pos1, rule);
-			Logger.debug("Definitions for [%s]: %s", dictionaryForm, definition);
+			List<String> definitions = DefinitionService.define(dictionaryForm, pos, pos1, rule);
+			Logger.debug("Definitions for [%s]: %s", dictionaryForm, definitions);
 			
-			return new HiraganaRuby(lemma, pos, inflection, pronunciation);
+			return new HiraganaRuby(lemma, pos, inflection, pronunciation, definitions);
 		} else if (pos.equals(PunctuationRuby.PUNCTUATION)){
 			return new PunctuationRuby(lemma);
 		} else {
-			List<String> definition = DefinitionService.define(dictionaryForm, tx.transliterate(pronunciation), pos, pos1, rule);
-			Logger.debug("Definitions for %s[%s]: %s", dictionaryForm, tx.transliterate(pronunciation), definition);
+			List<String> definitions = DefinitionService.define(dictionaryForm, tx.transliterate(pronunciation), pos, pos1, rule);
+			Logger.debug("Definitions for %s[%s]: %s", dictionaryForm, tx.transliterate(pronunciation), definitions);
 			
-			return new KanjiRuby(lemma,pos,inflection,pronunciation);
+			return new KanjiRuby(lemma,pos,inflection,pronunciation, definitions);
 		}
 	}
 }

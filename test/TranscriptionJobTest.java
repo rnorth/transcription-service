@@ -91,4 +91,16 @@ public class TranscriptionJobTest extends UnitTest {
 		assertEquals("soon", rubyParts.get(0).furigana);
         assertEquals("soon", rubyParts.get(0).written);
     }
+    
+    @Test
+    public void retrievesAppropriateDefinitions() throws Exception {
+    	TranscriptionResult result = (TranscriptionResult) new TranscriptionJob("日本").now().get();
+    	assertEquals("[1. Japan (n)]", result.rubies.get(0).definitions.toString());
+    	
+    	result = (TranscriptionResult) new TranscriptionJob("これ").now().get();
+    	assertEquals("[1. this (indicating an item near the speaker, the action of the speaker, or the current topic) (pn), 2. this person (usu. indicating someone in one's in-group) (pn), 3. now (pn), 4. here (pn), 5. I (me) (pn), 6. certainly (pn)]", result.rubies.get(0).definitions.toString());
+    
+    	result = (TranscriptionResult) new TranscriptionJob("パソコン").now().get();
+    	assertEquals("[1. personal computer (n)]", result.rubies.get(0).definitions.toString());
+    }
 }

@@ -15,8 +15,9 @@ public class Ruby {
 	public String pronunciation;
 	
 	public List<RubyPart> rubyParts = Lists.newArrayList();
+	public List<String> definitions;
 
-	public Ruby(String surface, String pos, String inflection, String pronunciation) {
+	public Ruby(String surface, String pos, String inflection, String pronunciation, List<String> definitions) {
 		this.lemma = surface;
 		this.pos = pos;
 		this.inflection = inflection;
@@ -26,7 +27,7 @@ public class Ruby {
 
 			splitIntoParts();
 		}
-		
+		this.definitions = definitions;
 	}
 
 	private void splitIntoParts() {

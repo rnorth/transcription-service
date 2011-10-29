@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -11,8 +13,8 @@ import com.ibm.icu.text.Transliterator;
 
 public class KanjiRuby extends Ruby {
 
-	public KanjiRuby(String surface, String pos, String inflection, String pronunciation) {
-		super(surface, pos, inflection, pronunciation);
+	public KanjiRuby(String surface, String pos, String inflection, String pronunciation, List<String> definitions) {
+		super(surface, pos, inflection, pronunciation, definitions);
 	}
 
 	@Override
